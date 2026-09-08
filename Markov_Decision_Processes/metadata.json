@@ -1,0 +1,6 @@
+{
+  "name": "MDP Interactive Simulator",
+  "description": "An interactive visualization of a Markov Decision Process (MDP) with Q-Learning evaluation.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

@@ -1,396 +1,348 @@
-# CartPole Reinforcement Learning Demo 
+\# Cart-Pole Balance using Reinforcement Learning
 
-An interactive **Reinforcement Learning (RL)** project that demonstrates how an agent can learn to balance a pole on a moving cart using the classic **CartPole-v1** environment.
 
-The project includes:
 
-*  A Jupyter Notebook for experimenting with the CartPole environment using Gymnasium.
-*  An interactive browser-based CartPole simulation.
-*  Live visualization of episode rewards and policy improvement.
-*  A simple policy-based reinforcement learning approach.
+\##Project Description
 
----
 
-##  Project Overview
 
-CartPole is one of the most popular introductory problems in Reinforcement Learning.
+This project demonstrates the \*\*Cart-Pole balancing problem\*\* using \*\*Reinforcement Learning (RL)\*\*. The objective is to teach an agent how to balance a pole attached to a moving cart by continuously deciding whether to push the cart to the left or right.
 
-The objective is simple:
 
-> Keep the pole balanced for as long as possible by moving the cart left or right.
 
-At every step, the agent observes the current state of the environment and chooses one of two possible actions:
+The project includes a \*\*Jupyter Notebook\*\* containing the Reinforcement Learning implementation and an \*\*interactive web-based simulation\*\* that visualizes the Cart-Pole environment and the learning process.
 
-*  Move the cart left
-*  Move the cart right
+
+
+In each episode, the agent observes the state of the environment, including the cart's position and velocity and the pole's angle and angular velocity. Based on this information, it selects an action to move the cart left or right.
+
+
+
+The agent receives rewards for keeping the pole balanced. The longer the pole remains upright, the higher the reward. The learning process improves the policy episode by episode by evaluating different candidate policies and retaining better-performing ones.
+
+
+
+The interactive demo uses a simple \*\*random search / hill-climbing approach\*\* to improve a linear policy and displays the current episode reward, best reward, and a moving average reward chart.
+
+
+
+\---
+
+
+
+\## Project Objective
+
+
+
+The main objective of this project is to understand how Reinforcement Learning can be applied to a classic control problem.
+
+
+
+The agent learns to:
+
+
+
+\* Observe the environment.
+
+\* Choose an action.
+
+\* Receive a reward.
+
+\* Evaluate its performance.
+
+\* Improve its policy over multiple episodes.
+
+
+
+\---
+
+
+
+\## Project Structure
+
+
+
+```text
+
+RL/
+
+│
+
+└── cart-pole-balance/
+
+&#x20;   ├── Reinforcement\_Learning(1).ipynb
+
+&#x20;   ├── cartpole-rl-demo.html
+
+&#x20;   └── README.md
+
+```
+
+
+
+\---
+
+
+
+\## Files
+
+
+
+\### 1. Reinforcement\_Learning(1).ipynb
+
+
+
+This Jupyter Notebook contains the Reinforcement Learning implementation and experimentation for the project.
+
+
+
+\### 2. cartpole-rl-demo.html
+
+
+
+This file contains an interactive browser-based Cart-Pole simulation. It visualizes:
+
+
+
+\* Cart and pole movement.
+
+\* Reinforcement Learning episodes.
+
+\* Current reward.
+
+\* Best reward achieved.
+
+\* Moving average episode reward.
+
+\* Policy improvement over time.
+
+
+
+\### 3. README.md
+
+
+
+This file provides documentation and instructions for the project.
+
+
+
+\---
+
+
+
+\## How Reinforcement Learning Works
+
+
+
+The learning process follows four main steps:
+
+
+
+\### 1. Observe
+
+
+
+The agent observes the current state of the environment:
+
+
+
+\* Cart position
+
+\* Cart velocity
+
+\* Pole angle
+
+\* Pole angular velocity
+
+
+
+\### 2. Act
+
+
+
+The agent uses the observed state to decide whether to push the cart:
+
+
+
+\* Left
+
+\* Right
+
+
+
+\### 3. Reward
+
+
 
 The agent receives a reward for every timestep that the pole remains balanced.
 
-The episode ends when:
 
-* The pole falls beyond the allowed angle.
-* The cart moves too far from the center.
-* The maximum number of steps is reached.
 
----
+\### 4. Update
 
-##  Reinforcement Learning Concepts
 
-The CartPole environment contains the following important RL components.
 
-### Observation Space
+The policy is evaluated after each episode. Better-performing policies are retained, while unsuccessful attempts are discarded.
 
-The agent receives four values representing the current environment state:
 
-```text
-[cart position,
- cart velocity,
- pole angle,
- pole angular velocity]
-```
 
-These observations are used by the policy to determine the next action.
+\---
 
-### Action Space
 
-There are two discrete actions:
 
-```text
-0 → Push cart left
-1 → Push cart right
-```
+\## Technologies Used
 
-### Reward
 
-The agent receives:
 
-```text
-+1 reward for every timestep the pole remains balanced
-```
+\* Python
 
-The longer the pole stays upright, the higher the total episode reward.
+\* Jupyter Notebook
 
----
+\* Reinforcement Learning
 
-##  Project Structure
+\* HTML
 
-```text
-├── Reinforcement_Learning.ipynb
-│   └── Jupyter Notebook demonstrating CartPole with Gymnasium
-│
-├── cartpole-rl-demo.html
-│   └── Interactive browser-based CartPole reinforcement learning demo
-│
-└── README.md
-```
+\---
 
----
 
-##  Jupyter Notebook
 
-The notebook introduces the **CartPole-v1** environment and demonstrates how to interact with it using Gymnasium.
+\## How to Run the Project
 
-The workflow includes:
 
-1. Creating the CartPole environment.
-2. Resetting the environment.
-3. Observing the state.
-4. Taking actions.
-5. Receiving rewards.
-6. Detecting episode termination.
-7. Implementing a simple policy.
 
-### Creating the Environment
+\### Run the Jupyter Notebook
 
-```python
-import gymnasium as gym
 
-env = gym.make(
-    "CartPole-v1",
-    render_mode="rgb_array"
-)
-```
 
-### Resetting the Environment
+Make sure Python and Jupyter Notebook are installed.
 
-```python
-obs, info = env.reset(seed=42)
-```
 
-### Taking an Action
 
-```python
-action = 1
+Open a terminal inside the project folder and run:
 
-obs, reward, done, truncated, info = env.step(action)
-```
 
----
-
-##  Basic Policy
-
-The notebook implements a simple rule-based policy based on the pole angle.
-
-```python
-def basic_policy(obs):
-    angle = obs[2]
-    return 0 if angle < 0 else 1
-```
-
-The policy checks the pole's angle and selects a direction for the cart.
-
-The policy is then evaluated over multiple episodes to measure its performance.
-
-Example evaluation metrics include:
-
-* Mean reward
-* Standard deviation
-* Minimum reward
-* Maximum reward
-
-```python
-import numpy as np
-
-np.mean(totals)
-np.std(totals)
-min(totals)
-max(totals)
-```
-
----
-
-#  Interactive Web Demo
-
-The project also includes a standalone interactive CartPole simulation built with:
-
-* HTML
-* CSS
-* Vanilla JavaScript
-* Canvas API
-* Chart.js
-
-The simulation runs entirely in the browser.
-
-No backend or server is required.
-
----
-
-##  Features
-
-### Live CartPole Simulation
-
-Watch the cart and pole move in real time as the policy attempts to keep the pole balanced.
-
-### Episode Tracking
-
-The interface displays:
-
-* Current episode number
-* Current episode reward
-* Best reward achieved
-
-### Learning Visualization
-
-A live chart displays the moving average of episode rewards.
-
-This makes it easier to observe whether the policy is improving over time.
-
-### Speed Control
-
-Users can control the simulation speed using the speed slider.
-
-### Pause and Play
-
-The simulation can be paused and resumed at any time.
-
----
-
-##  How the Learning Process Works
-
-The browser demo follows a simple policy-improvement loop:
-
-### 1. Observe 
-
-The agent reads the current state:
-
-* Cart position
-* Cart velocity
-* Pole angle
-* Pole angular velocity
-
-### 2. Act 
-
-A linear policy calculates an action using the current observation and a set of weights.
-
-```text
-Observation × Policy Weights → Action
-```
-
-The cart is then pushed left or right.
-
-### 3. Receive Reward 
-
-Every timestep that the pole remains balanced contributes to the episode reward.
-
-### 4. Update 
-
-The policy weights are slightly modified.
-
-If the new policy performs better than the previous best policy, the new weights are kept.
-
-Otherwise, they are discarded.
-
-This approach is a form of:
-
-> **Hill Climbing / Random Search**
-
-The learning process does not use:
-
-* Neural networks
-* Backpropagation
-* Gradients
-
-Instead, it repeatedly:
-
-```text
-Propose → Evaluate → Keep Improvements
-```
-
----
-
-##  CartPole Physics
-
-The simulation models the standard CartPole dynamics using:
-
-* Gravity
-* Cart mass
-* Pole mass
-* Pole length
-* Applied force
-* Angular acceleration
-* Cart acceleration
-
-The environment state is continuously updated using physics equations.
-
-The episode terminates when the cart or pole exceeds the defined limits.
-
----
-
-##  Installation and Usage
-
-### Option 1: Run the Jupyter Notebook
-
-Install the required dependencies:
 
 ```bash
-pip install gymnasium
-```
 
-For classic control environments:
-
-```bash
-pip install gymnasium[classic_control]
-```
-
-Then launch Jupyter Notebook:
-
-```bash
 jupyter notebook
+
 ```
 
-Open:
+
+
+Then open:
+
+
 
 ```text
-Reinforcement_Learning.ipynb
+
+Reinforcement\_Learning(1).ipynb
+
 ```
 
----
 
-### Option 2: Run the Web Demo
 
-Simply open the following file in your web browser:
+\### Run the Interactive Demo
+
+
+
+Open the following file in any modern web browser:
+
+
 
 ```text
+
 cartpole-rl-demo.html
+
 ```
 
-No backend setup is required.
 
----
 
-##  Technologies Used
+The simulation will start and display the Cart-Pole balancing process.
 
-| Technology       | Purpose                            |
-| ---------------- | ---------------------------------- |
-| Python           | Reinforcement Learning experiments |
-| Gymnasium        | CartPole environment               |
-| NumPy            | Performance analysis               |
-| Jupyter Notebook | Interactive experimentation        |
-| HTML             | Web application structure          |
-| CSS              | User interface styling             |
-| JavaScript       | Simulation and learning logic      |
-| Canvas API       | CartPole visualization             |
-| Chart.js         | Reward visualization               |
 
----
 
-##  Learning Objective
+\---
 
-This project is designed as an introduction to:
 
-* Reinforcement Learning
-* Markov Decision Processes
-* Observation spaces
-* Action spaces
-* Rewards
-* Episodes
-* Policies
-* Environment interaction
-* Policy improvement
-* CartPole dynamics
 
----
+\## Learning Method
 
-##  Possible Improvements
 
-Future versions of this project could include:
 
-*  Deep Q-Learning (DQN)
-*  PyTorch implementation
-*  Neural network policies
-*  Advanced reward analytics
-*  Saving and loading trained models
-*  Manual keyboard controls
-*  Comparison of multiple RL algorithms
-*  Training performance benchmarks
+The interactive demonstration uses a simple policy-improvement approach based on:
 
----
 
-##  References
 
-* Gymnasium
-* CartPole-v1 environment
-* Reinforcement Learning fundamentals
-* Classic control theory
+\* Random search
 
----
+\* Hill climbing
 
-##  Author
+\* Policy evaluation
 
-Created as a Reinforcement Learning learning project focused on understanding the **CartPole balancing problem** and basic policy improvement techniques.
+\* Reward maximization
 
----
 
-##  Conclusion
 
-This project provides a practical introduction to Reinforcement Learning by combining:
+A candidate policy is tested during an episode. If it performs better than the current best policy, it is retained and used as the basis for future improvements.
 
-* A Python-based CartPole experiment
-* A simple rule-based policy
-* An interactive browser simulation
-* Live reward visualization
-* A lightweight hill-climbing learning method
 
-It is a beginner-friendly project for understanding how an agent interacts with an environment and improves its behavior through rewards and repeated experimentation.
 
-**Happy Learning! **
+\---
+
+
+
+\## Key Concepts
+
+
+
+This project demonstrates important Reinforcement Learning concepts:
+
+
+
+\* Agent
+
+\* Environment
+
+\* State
+
+\* Action
+
+\* Reward
+
+\* Episode
+
+\* Policy
+
+\* Policy improvement
+
+\* Exploration
+
+\* Performance evaluation
+
+
+
+\---
+
+
+
+\## Author
+
+
+
+\*\*Saqlain\*\*
+
+
+
+\---
+
+
+
+\## Conclusion
+
+
+
+The Cart-Pole problem is a classic Reinforcement Learning challenge that helps demonstrate how an agent can learn through interaction with an environment. This project provides both an implementation environment through Jupyter Notebook and an interactive visualization that makes the learning process easier to understand.
+
+
+
